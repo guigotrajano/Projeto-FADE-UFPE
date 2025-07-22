@@ -31,7 +31,7 @@ Este é um dashboard de livros que consome a API pública da OpenLibrary para li
 
 ```bash
 # Clone o repositório
-git clone <url-do-repositorio>
+git clone https://github.com/guigotrajano/Projeto-FADE-UFPE.git
 cd book-dashboard
 
 # Instale as dependências
