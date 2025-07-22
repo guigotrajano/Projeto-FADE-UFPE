@@ -1,0 +1,254 @@
+Desafio Técnico – Estágio em Desenvolvimento Front-End
+Descrição Geral do Desafio
+Você construirá uma aplicação web Dashboard de Livros que permite listar, pesquisar e visualizar detalhes de obras obtidas da API pública da OpenLibrary. O resultado deve ser um pequeno projeto React funcional, com interface responsiva, código versionado no GitHub e documentação clara.
+Requisitos Funcionais
+1. Listagem de Livros
+•	Consumir https://openlibrary.org/search.json?q={termo}&limit=25&fields=title,author_name,cover_i,first_publish_year,key
+•	Exibir resultados em cards organizados em grid responsivo
+•	Cada card deve mostrar: capa, título, autor(es) e ano de publicação
+•	Implementar placeholder para livros sem capa
+2. Pesquisa Dinâmica
+•	Campo de busca que permite consultas por título, autor ou termo geral
+•	Atualizar resultados em tempo real (debounce de 500ms recomendado)
+•	Suportar busca vazia para listar livros populares (q=*)
+3. Paginação
+•	Implementar navegação entre páginas usando parâmetros page e limit
+•	Exibir informações de página atual e total de resultados (num_found)
+•	Botões de navegação: Primeira, Anterior, Próxima, Última
+4. Detalhes do Livro
+•	Modal ou página separada acionada ao clicar no card
+•	Exibir dados completos: capa em tamanho médio, título, autores, ano, número de páginas, editora
+•	Usar campos: title, author_name, first_publish_year, number_of_pages_median, publisher
+5. Estados da Aplicação
+•	Carregamento: Skeleton loading ou spinner durante requisições
+•	Erro: Mensagens amigáveis para falhas de rede ou API
+•	Vazio: Estado quando nenhum resultado é encontrado
+•	Sucesso: Exibição normal dos resultados
+Requisitos Não Funcionais
+Tecnologias Obrigatórias
+Categoria	Especificação
+Frontend	React 18+, JavaScript ES6+, Material-UI 5+
+HTTP Client	Fetch API nativo ou Axios
+Estilização	Material-UI componentes + CSS Modules ou Styled Components
+Build	Create React App ou Vite
+
+Arquitetura de Código
+src/
+├── components/
+│   ├── BookCard/
+│   ├── BookModal/
+│   ├── SearchBar/
+│   ├── Loading/
+│   └── Pagination/
+├── services/
+│   └── openLibraryAPI.js
+├── hooks/
+│   ├── useBooks.js
+│   └── useDebounce.js
+├── utils/
+│   └── helpers.js
+└── App.js
+
+Diferenciais Técnicos
+1. Testes Unitários (Diferencial)
+Implementar pelo menos 3 testes usando React Testing Library e Jest[5][6]:
+// Exemplo de teste para BookCard component
+import { render, screen } from '@testing-library/react';
+import BookCard from './BookCard';
+
+test('renders book information correctly', () => {
+  const mockBook = {
+    title: 'Clean Code',
+    author_name: ['Robert C. Martin'],
+    first_publish_year: 2008
+  };
+  
+  render(<BookCard book={mockBook} />);
+  
+  expect(screen.getByText('Clean Code')).toBeInTheDocument();
+  expect(screen.getByText('Robert C. Martin')).toBeInTheDocument();
+  expect(screen.getByText('2008')).toBeInTheDocument();
+});
+
+Testes recomendados:
+•	Renderização correta de componentes
+•	Funcionamento da busca
+•	Estados de loading e erro
+2. Storybook (Diferencial)
+Documentar pelo menos 1 componente com Storybook[7][8]:
+// BookCard.stories.js
+export default {
+  title: 'Components/BookCard',
+  component: BookCard,
+  argTypes: {
+    book: { control: 'object' }
+  }
+};
+
+export const Default = {
+  args: {
+    book: {
+      title: 'The Pragmatic Programmer',
+      author_name: ['David Thomas', 'Andrew Hunt'],
+      first_publish_year: 1999,
+      cover_i: 123456
+    }
+  }
+};
+
+export const WithoutCover = {
+  args: {
+    book: {
+      title: 'Book Without Cover',
+      author_name: ['Unknown Author'],
+      first_publish_year: 2020
+    }
+  }
+};
+
+3. Tailwind CSS (Opcional)
+•	Pode ser usado como utilitário complementar ao Material-UI
+•	Útil para espaçamentos e utilidades específicas
+4. Visualização de Dados (Diferencial)
+Implementar 1 gráfico simples usando Chart.js ou D3.js:
+•	Distribuição de livros por década
+•	Top 10 autores mais encontrados
+•	Gráfico de barras com anos de publicação
+Funcionalidades Extras (Bônus)
+Filtros Avançados
+•	Filtro por ano de publicação (range slider)
+•	Filtro por idioma usando parâmetro language
+•	Ordenação por relevância, data ou título
+Favoritos
+•	Sistema de favoritos usando localStorage
+•	Persistência entre sessões
+•	Contador de livros favoritados
+Busca Avançada
+•	Busca combinada: título + autor
+•	Histórico de buscas recentes
+•	Sugestões de busca
+Documentação Obrigatória
+README.md
+Deve conter obrigatoriamente:
+# Dashboard de Livros - OpenLibrary
+
+## Visão Geral
+Breve descrição do projeto e suas funcionalidades.
+
+## Tecnologias
+- React 18.2.0
+- Material-UI 5.x
+- Axios/Fetch API
+- React Testing Library
+- Storybook (se implementado)
+
+## Instalação
+npm install
+npm start
+
+## Scripts Disponíveis
+- `npm start`: Desenvolvimento
+- `npm test`: Executar testes
+- `npm run build`: Build de produção
+- `npm run storybook`: Storybook (se aplicável)
+
+## Decisões Técnicas
+Explicar escolhas de arquitetura, estado, patterns utilizados.
+
+## Próximos Passos
+Funcionalidades que seriam implementadas com mais tempo.
+
+Critérios de Avaliação
+Peso	Critério	Descrição
+35%	Qualidade do código	Organização, legibilidade, patterns, componentização
+25%	Interface & UX	Design responsivo, usabilidade, acessibilidade
+20%	Integração com API	Uso correto da OpenLibrary API, tratamento de erros
+10%	Testes	Cobertura e qualidade dos testes unitários
+5%	Documentação	Clareza do README, comentários úteis
+5%	Diferenciais	Storybook, Tailwind, visualizações, funcionalidades extras
+
+Nota mínima: 70 pontos para aprovação.
+Recursos de Apoio
+API da OpenLibrary - Especificações Técnicas
+Endpoint Principal
+URL Base: https://openlibrary.org/search.json
+Parâmetros Disponíveis
+A API da OpenLibrary oferece os seguintes parâmetros para consultas:
+Parâmetro	Descrição	Exemplo
+q	Consulta principal usando sintaxe Solr	q=javascript
+title	Busca por título específico	title=the+lord+of+the+rings
+author	Busca por autor	author=tolkien
+fields	Campos específicos a retornar	fields=title,author_name,first_publish_year
+sort	Ordenação (new, old, random, key)	sort=new
+lang	Código de idioma ISO 639-1	lang=pt
+limit	Número de resultados (padrão: 100)	limit=25
+offset	Paginação - número de registros a pular	offset=50
+page	Número da página (inicia em 1)	page=2
+
+Formato de Resposta
+A API retorna dados no seguinte formato:
+{
+  "start": 0,
+  "num_found": 629,
+  "numFound": 629,
+  "docs": [
+    {
+      "title": "The Lord of the Rings",
+      "author_name": ["J. R. R. Tolkien"],
+      "first_publish_year": 1954,
+      "key": "OL27448W",
+      "cover_i": 258027,
+      "edition_count": 120,
+      "has_fulltext": true,
+      "ia": ["returnofking00tolk_1"],
+      "author_key": ["OL26320A"],
+      "public_scan_b": true,
+      "publisher": ["HarperCollins"],
+      "language": ["eng"],
+      "number_of_pages_median": 1216
+    }
+  ]
+}
+
+Campos Principais Disponíveis
+Com base no schema da API[2], os principais campos que podem ser utilizados incluem:
+•	title: Título da obra
+•	author_name: Array com nomes dos autores
+•	author_key: Array com identificadores dos autores
+•	first_publish_year: Ano da primeira publicação
+•	cover_i: ID da capa (para construir URL da imagem)
+•	key: Identificador único da obra
+•	edition_count: Número de edições disponíveis
+•	has_fulltext: Boolean indicando se há texto completo
+•	ia: Array com identificadores do Internet Archive
+•	publisher: Array com editoras
+•	language: Array com códigos de idiomas
+•	number_of_pages_median: Mediana do número de páginas
+•	subject: Array com assuntos/categorias
+API de Capas de Livros
+Para exibir capas dos livros, utilize a API específica[3]:
+URL Pattern: https://covers.openlibrary.org/b/id/{cover_i}-{size}.jpg
+Tamanhos disponíveis:
+•	S: Small (adequado para thumbnails)
+•	M: Medium (ideal para páginas de detalhes)
+•	L: Large (alta resolução)
+Exemplo: https://covers.openlibrary.org/b/id/258027-M.jpg
+Fallback: Por padrão, retorna imagem em branco se a capa não existir. Use ?default=false para retornar erro 404.
+Exemplos de Consultas
+Tipo de Busca	URL
+Busca geral	https://openlibrary.org/search.json?q=javascript&limit=25
+Por título	https://openlibrary.org/search.json?title=clean+code&fields=title,author_name,cover_i
+Por autor	https://openlibrary.org/search.json?author=robert+martin&sort=new
+Paginação	https://openlibrary.org/search.json?q=react&page=2&limit=10
+
+APIs de Referência
+•	Documentação OpenLibrary: https://openlibrary.org/dev/docs/api/search
+•	API de Capas: https://openlibrary.org/dev/docs/api/covers
+Bibliotecas Recomendadas
+•	Material-UI: https://mui.com/
+•	React Testing Library: https://testing-library.com/docs/react-testing-library/intro
+•	Storybook: https://storybook.js.org/
+Exemplos de Implementação
+•	Consultar projetos similares no GitHub para referência
+•	Exemplos de uso da API OpenLibrary 
+Observação: Este desafio avalia tanto competências técnicas quanto capacidade de aprendizado, organização e documentação. Foque na qualidade do código e na experiência do usuário, mesmo que isso signifique implementar menos funcionalidades. 
