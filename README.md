@@ -10,6 +10,13 @@ Este é um dashboard de livros que consome a API pública da OpenLibrary para li
 - **Detalhes do Livro**: Modal com informações completas do livro selecionado
 - **Estados da Aplicação**: Loading, erro, vazio e sucesso com feedback visual
 - **Interface Responsiva**: Design adaptável para diferentes tamanhos de tela
+- **Favoritos**: Clique no ícone de coração e adicione o livro aos seus favoritos
+- **Filtros Avançados**: Filtre os resultados de busca por: data, número de páginas, editora, gênero e língua
+- **Barra de Pesquisa Interativa**: Pesquisa os resultados a cada 500ms. A busca pode ser realizada por: título, autor, palavras-chave ou todos esses combinados
+- **Ordenar por**: Ordene os resultados da busca por relevância e recência
+- **Testes**: Teste a aplicação com os comandos mais adiante
+- **Gráfico de livros publicados**: Acesse o gráfico de barra, com informações de livros publicados por década
+  
 
 ## Tecnologias
 - **React 19.1.0** - Biblioteca principal para interface
@@ -43,7 +50,7 @@ pnpm dev
 - `pnpm lint`: Executa o linter
 - `pnpm preview`: Visualiza o build de produção
 
-## Estrutura do Projeto
+## Estrutura do Projeto (BASE):
 
 ```
 src/
@@ -83,31 +90,9 @@ src/
 - **Debouncing**: Otimização de performance na busca
 - **Pagination**: Navegação eficiente entre resultados
 
-## Próximos Passos
-
-### Funcionalidades Futuras
-- [ ] Sistema de favoritos com localStorage
-- [ ] Filtros avançados por ano e idioma
-- [ ] Histórico de buscas recentes
-- [ ] Visualizações de dados com gráficos
-- [ ] Testes de integração
-- [ ] Storybook para documentação de componentes
-
 ### Melhorias Técnicas
 - [ ] Implementação de React Query para cache
 - [ ] Otimização de performance com React.memo
 - [ ] Implementação de PWA
 - [ ] Internacionalização (i18n)
 - [ ] Acessibilidade (ARIA labels)
-
-## Contribuição
-
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
-
-## Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
