@@ -1,12 +1,15 @@
 // src/components/BookCard/BookCard.jsx
 
-import React from 'react'; // <-- Importe React
-import { Card, CardContent, CardMedia, Typography, Chip } from '@mui/material';
+import React from 'react';
+import { Card, CardContent, CardMedia, Typography, Box, IconButton, Tooltip } from '@mui/material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { getCoverUrl, getPlaceholderUrl } from '../../services/openLibraryAPI';
 import { formatAuthors, formatYear, truncateText } from '../../utils/helpers';
+import Chip from '@mui/material/Chip';
 
-const BookCard = ({ book, onBookClick }) => {
-  // ...todo o seu código interno do card, que está ótimo...
+// Adicionar as novas props: isFavorite e onToggleFavorite
+const BookCard = ({ book, onBookClick, isFavorite, onToggleFavorite }) => {
   const { title, author_name, first_publish_year, cover_i, edition_count } = book;
   const coverUrl = cover_i ? getCoverUrl(cover_i, 'M') : getPlaceholderUrl(title);
   const formattedTitle = truncateText(title, 50);
@@ -14,19 +17,44 @@ const BookCard = ({ book, onBookClick }) => {
   const formattedYear = formatYear(first_publish_year);
   const handleClick = () => { if (onBookClick) { onBookClick(book); } };
 
+  const handleFavoriteClick = (event) => {
+    event.stopPropagation(); // Impede que o modal do livro abra ao clicar no coração
+    onToggleFavorite(book);
+  };
+
   return (
     <Card 
       className="h-full flex flex-col cursor-pointer transition-transform duration-200 hover:scale-105 hover:shadow-lg"
-      onClick={handleClick}
+      sx={{ position: 'relative' }} // Posição relativa para o botão de favorito
     >
-      <CardMedia
-        component="img"
-        height="200"
-        image={coverUrl}
-        alt={title}
-        className="object-cover"
-        onError={(e) => { e.target.src = getPlaceholderUrl(title); }}
-      />
+      {/* Botão de Favorito posicionado no canto superior direito */}
+      <Tooltip title={isFavorite ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}>
+        <IconButton
+          aria-label="toggle favorite"
+          onClick={handleFavoriteClick}
+          sx={{
+            position: 'absolute',
+            top: 8,
+            right: 8,
+            color: isFavorite ? 'red' : 'white',
+            backgroundColor: 'rgba(0, 0, 0, 0.4)',
+            '&:hover': {
+              backgroundColor: 'rgba(0, 0, 0, 0.6)',
+            },
+          }}
+        >
+          {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+        </IconButton>
+      </Tooltip>
+
+      <div onClick={() => onBookClick(book)}> {/* Mover o onClick para um wrapper */}
+        <CardMedia
+          component="img"
+          height="200"
+          image={coverUrl}
+          alt={title}
+          className="object-cover"
+        />
       <CardContent className="flex-1 flex flex-col">
         <Typography variant="h6" component="h3" className="font-semibold mb-2 line-clamp-2" title={title}>
           {formattedTitle}
@@ -39,9 +67,9 @@ const BookCard = ({ book, onBookClick }) => {
           {edition_count > 1 && (<Chip label={`${edition_count} edições`} size="small" variant="outlined" className="text-xs" />)}
         </div>
       </CardContent>
+      </div>
     </Card>
   );
 };
 
-// Envolvemos o componente com React.memo para otimizar
 export default React.memo(BookCard);

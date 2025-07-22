@@ -10,6 +10,7 @@ const BookSkeleton = ({ count = 12 }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
       {Array.from({ length: count }).map((_, index) => (
+        <div key={index} data-testid="book-skeleton">
         <Card key={index} className="h-full flex flex-col">
           <Skeleton
             variant="rectangular"
@@ -23,6 +24,7 @@ const BookSkeleton = ({ count = 12 }) => {
             <Skeleton variant="text" width="40%" height={16} />
           </CardContent>
         </Card>
+        </div>
       ))}
     </div>
   );
