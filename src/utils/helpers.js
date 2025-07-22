@@ -3,6 +3,69 @@
  * @param {Array} authors - Array de nomes de autores
  * @returns {string} String formatada com autores
  */
+
+export const languageMap = {
+  eng: 'Inglês',
+  por: 'Português',
+  spa: 'Espanhol',
+  fre: 'Francês',
+  ger: 'Alemão',
+  ita: 'Italiano',
+  jpn: 'Japonês',
+  rus: 'Russo',
+  chi: 'Chinês',
+  ara: 'Árabe',
+  hin: 'Hindi',
+  kor: 'Coreano',
+  dut: 'Holandês',
+  pol: 'Polonês',
+  tur: 'Turco',
+  dan: 'Dinamarquês',
+  swe: 'Sueco',
+  nor: 'Norueguês',
+  fin: 'Finlandês',
+  gre: 'Grego',
+  heb: 'Hebraico',
+  ukr: 'Ucraniano',
+  hun: 'Húngaro',
+  cze: 'Tcheco',
+  tha: 'Tailandês',
+  vie: 'Vietnamita',
+  ind: 'Indonésio',
+  mal: 'Malaio',
+  fil: 'Filipino',
+  tam: 'Tâmil',
+  ast: 'Asturiano',
+  bul: 'Búlgaro',
+  cat: 'Catalão',
+  eus: 'Basco',
+  bac: 'Bengali',
+  est: 'Estoniano',
+  baq: 'Bascu',
+  lat: 'Latim',
+  gla: 'Gaélico Escocês',
+  glg: 'Galego',
+  gle: 'Galês',
+  lit: 'Lituano',
+  lav: 'Letão',
+  geo: 'Georgiano',
+  gem: 'Germânico',
+  mul: 'Multilíngue',
+  per: 'Persa',
+  rum: 'Romeno',
+  slk: 'Eslovaco',
+  slo: 'Esloveno',
+  srp: 'Sérvio',
+  slv: 'Esloveno',
+  ukr: 'Ucraniano',
+  yid: 'Yiddish',
+  wel: 'Galesa',
+  sco: 'Ânglica Escocesa'
+
+};
+
+export const getLanguageName = (code) => languageMap[code] || code;
+
 export const formatAuthors = (authors) => {
   if (!authors || !Array.isArray(authors) || authors.length === 0) {
     return 'Autor desconhecido';
@@ -107,5 +170,6 @@ export default {
   truncateText,
   calculateTotalPages,
   isEmpty,
-  generateId
+  generateId,
+  getLanguageName
 }; 
